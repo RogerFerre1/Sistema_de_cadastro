@@ -44,27 +44,43 @@ int main(){
     }
 }
 
-// função cadastrar cliente
+// Função cadastrar cliente
 int cadastrar_cliente(){
+    
     while(opcao_cadastro != 2){
+
+        // Cria um ponteiro para a variavel file
+        FILE *file;
+    
+        // Cria ou abre o arquivo "clientes.txt"
+        // O "a" define a ação a ser realizada no arquivo, no caso append adiciona novos registros
+        file = fopen("clientes.txt", "a");
+
+        // Verifica se o arquivo foi aberto
+        if(file == NULL){
+            printf("Erro ao abrir o arquivo");
+            system("pause");
+            exit(0);
+        }
 
         printf("Digite o nome do cliente: ");
         // fgets substitui o scanf, ideal para armazenar mais de 1 palavra por variável
         fgets(pessoas[total_pessoas].nome, sizeof(pessoas[total_pessoas].nome), stdin);
+        fprintf(file, "Nome: %s", pessoas[total_pessoas].nome);
 
         printf("Digite o CPF do cliente: ");
         fgets(pessoas[total_pessoas].cpf, sizeof(pessoas[total_pessoas].cpf), stdin);
-    
+        fprintf(file, "CPF: %s", pessoas[total_pessoas].cpf);
+
         printf("Digite o telefone do cliente: ");
         fgets(pessoas[total_pessoas].telefone, sizeof(pessoas[total_pessoas].telefone), stdin);
+        fprintf(file, "Telefone: %s", pessoas[total_pessoas].telefone);
 
         printf("Digite o E-mail do cliente: ");
         fgets(pessoas[total_pessoas].email, sizeof(pessoas[total_pessoas].email), stdin);
-
-        // abrir o TXT
-        // salvar os dados no TXT
-        // fechar o TXT
-        printf("\n%s \n%s \n%s \n%s\n", pessoas[total_pessoas].nome, pessoas[total_pessoas].cpf, pessoas[total_pessoas].telefone, pessoas[total_pessoas].email);
+        fprintf(file, "E-mail: %s \n", pessoas[total_pessoas].email);
+        
+        fclose(file);
 
         total_pessoas++;
 
@@ -74,6 +90,7 @@ int cadastrar_cliente(){
     }
 }
 
+// Função buscar cliente
 int buscar_cliente(){
     while(opcao_busca != 2){
 
@@ -93,6 +110,7 @@ int buscar_cliente(){
     }
 }
 
+// Função remover cliente
 int remover_cliente(){
     while(opcao_excluir != 2){
 
@@ -112,16 +130,4 @@ int remover_cliente(){
         scanf("%d", &opcao_excluir);
         getchar();
     }
-}
-
-int salvar_cliente(){
-    // Cria a variável ponteiro para o arquivo
-    FILE *pont_arq;
-
-    // Abre o arquivo
-    // O "a" vem de append q é pra escrever e anexar algo a mais no arquivo
-    pont_arq = fopen("clientes.txt", "a");
-
-    // Fecha o arquivo
-    fclose(pont_arq);
 }

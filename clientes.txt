@@ -58,4 +58,13 @@ Nome: Roger Ferreira de Souza
  | CPF: 76543
  | Telefone: dfsdhkjnsd
  | E-mail: hshdjd
+ Nome: Rogin
+CPF: FS
+Telefone: 16991937365
+E-mail: roginapenas@rogin.com.br
+ 
+Nome: Filipe
+CPF: 789
+Telefone: 2321541
+E-mail: ediqwie
  

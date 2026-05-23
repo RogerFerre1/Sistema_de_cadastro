@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 // Struct Pessoa engloba todas as variáveis declaradas em um mesmo padrão
 struct Pessoa{
@@ -12,18 +13,16 @@ struct Pessoa{
 // Definindo a quatidade de cadastros suportados
 struct Pessoa pessoas[100];
 
-int opcao = 0, opcao_cadastro = 0, opcao_busca = 0, opcao_excluir = 0;
+int opcao = 0, opcao_cadastro = 0, opcao_listar = 0;
 int total_pessoas = 0;
 
 // Declarando as funções
 int cadastrar_cliente();
-int buscar_cliente();
-int remover_cliente();
-int salvar_cliente();
+int listar_cliente();
 
 int main(){
     printf("############### Sistema de Cadastro ###############");
-    printf("\nSelecione a operacao desejada: \n 1 - Cadastrar cliente \n 2 - Buscar cliente \n 3 - Remover cadastro \n 4 - Sair \n");
+    printf("\nSelecione a operacao desejada: \n 1 - Cadastrar cliente \n 2 - Verificar cadastro \n 3 - Sair \n");
     scanf("%d", &opcao);
     getchar();
 
@@ -33,10 +32,7 @@ int main(){
             cadastrar_cliente();
             return 0;
         case 2: 
-            buscar_cliente();
-            return 0;
-        case 3:
-            remover_cliente();
+            listar_cliente();
             return 0;
         default:
             printf("Encerrando programa");
@@ -64,8 +60,9 @@ int cadastrar_cliente(){
         }
 
         printf("Digite o nome do cliente: ");
-        // fgets substitui o scanf, ideal para armazenar mais de 1 palavra por variável
+        // Fgets substitui o scanf, ideal para armazenar mais de 1 palavra por variável
         fgets(pessoas[total_pessoas].nome, sizeof(pessoas[total_pessoas].nome), stdin);
+        //Fprintf "imprime" o dado em um arquivo txt em vez da tela
         fprintf(file, "Nome: %s", pessoas[total_pessoas].nome);
 
         printf("Digite o CPF do cliente: ");
@@ -80,8 +77,9 @@ int cadastrar_cliente(){
         fgets(pessoas[total_pessoas].email, sizeof(pessoas[total_pessoas].email), stdin);
         fprintf(file, "E-mail: %s \n", pessoas[total_pessoas].email);
         
+        // Fecha o arquivo clientes.txt
         fclose(file);
-
+        // Incrementa o vetor de pessoas cadastradas
         total_pessoas++;
 
         printf("Voce deseja cadastrar outro cliente ? \n 1 - Sim \n 2 - Nao \n");
@@ -90,44 +88,27 @@ int cadastrar_cliente(){
     }
 }
 
-// Função buscar cliente
-int buscar_cliente(){
-    while(opcao_busca != 2){
+int listar_cliente(){  
+    FILE *file;
+    
+    // Variável para armazenar cada linha
+    char linha[200];
 
-        printf("Digite o CPF do cliente desejado: ");
-        fgets(pessoas[total_pessoas].cpf, sizeof(pessoas[total_pessoas].cpf), stdin);
+    // Abre o arquivo em modo leitura
+    file = fopen("clientes.txt", "r");
 
-        if(pessoas[total_pessoas].cpf == NULL){
-            printf("Cliente não cadastrado");
-        } else{
-            // abrir txt, mostrar os dados
-            //fechar o txt
-        }
-
-        printf("Voce deseja realizar outra busca ? \n 1 - Sim \n 2 - Nao \n");
-        scanf("%d", &opcao_busca);
-        getchar();
+    if(file == NULL){
+        printf("Nenhum cliente cadastrado. \n");
+        return 0;
     }
-}
 
-// Função remover cliente
-int remover_cliente(){
-    while(opcao_excluir != 2){
+    printf("############# CLIENTES CADASTRADOS ##############\n");
 
-        printf("Digite o CPF que deseja remover do cadastro");
-        fgets(pessoas[total_pessoas].cpf, sizeof(pessoas[total_pessoas].cpf), stdin);
-
-        if(pessoas[total_pessoas]. cpf == NULL){
-            printf("Cliente nao cadastrado");
-        } else{
-            // abrir o txt
-            // buscar o cpf
-            // excluir os dados do cliente
-            // fechar o txt
-        }
-
-        printf("Voce deseja excluir outro cadastro ? \n 1 - Sim \n 2 - Nao \n");
-        scanf("%d", &opcao_excluir);
-        getchar();
+    while(fgets(linha, sizeof(linha), file) != NULL){
+        printf("%s", linha);
     }
+
+    fclose(file);
+
+    return 0;
 }

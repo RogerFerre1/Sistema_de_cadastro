@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 // Struct Pessoa engloba todas as variáveis declaradas em um mesmo padrão
 struct Pessoa{
